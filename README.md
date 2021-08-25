@@ -5,13 +5,11 @@ Version of Java: 11.0.12+7 (Zulu)
 OS: Ubuntu-20.04
 
 STEPS TO REPRODUCE:
-0. Create sample app with NDK support and minimum supported SDK set to 16.
-[Not important] 1. Verify that `./gradlew build` fails, because lint informs about WebP image requiring API 18. See build log #0 below.
-[Not important] 2. Add `android.lintOptions.abortOnError false`, verify that build succeeds.
-3. Upgrade CMake to 3.21.1 (latest) and NDK to 23.0.7599858 (latest)
-4. Verify that `./gradlew build` fails. See build log #1 below.
+0. Create sample app with NDK support and minimum supported SDK set to 20.
+1. Upgrade CMake to 3.21.1 (latest) and NDK to 23.0.7599858 (latest)
+2. Verify that `./gradlew build` fails.
 
-Build succeeds with CMake 3.18.1, but there are a lot of warnings from NDK 23, demanding CMake 3.19 or newer.
+Build succeeds with CMake 3.18.1, but there's a lot of warnings from NDK 23, demanding CMake 3.19 or newer.
 
 Build log #1: ```
 > Task :app:configureCMakeDebug FAILED
@@ -36,45 +34,4 @@ C/C++: debug|arm64-v8a :
 C/C++: debug|arm64-v8a :  CMake will not be able to correctly generate this project.
 C/C++: debug|arm64-v8a :Call Stack (most recent call first):
 C/C++: debug|arm64-v8a :  CMakeLists.txt:10 (project)
-```
-
-Build log #0: ```
-# ./gradlew build
-
-> Task :app:lintDebug FAILED
-Wrote HTML report to file:///.../AndroidIssue_MinSdkAutoUpgradeFor64Bits/app/build/reports/lint-results-debug.html
-Lint found 10 errors and 2 warnings. First failure:
-/home/user/proj/AndroidIssue_MinSdkAutoUpgradeFor64Bits/app/src/main/res/mipmap-hdpi/ic_launcher.webp: Error: WebP extended or lossless format requires Android 4.2.1 (API 18); current minSdkVersion is 16 [WebpUnsupported]
-
-Lint found errors in the project; aborting build.
-
-Fix the issues identified by lint, or add the following to your build script to proceed with errors:
-...
-android {
-    lintOptions {
-        abortOnError false
-    }
-}
-...
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':app:lintDebug'.
-> A failure occurred while executing com.android.build.gradle.internal.lint.AndroidLintTask$AndroidLintLauncherWorkAction
-   > There was a failure while executing work items
-      > A failure occurred while executing com.android.build.gradle.internal.lint.AndroidLintWorkAction
-         > Lint found errors in the project; aborting build.
-
-* Try:
-Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
-
-* Get more help at https://help.gradle.org
-
-Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
-Use '--warning-mode all' to show the individual deprecation warnings.
-See https://docs.gradle.org/7.0.2/userguide/command_line_interface.html#sec:command_line_warnings
-
-BUILD FAILED in 12s
-86 actionable tasks: 57 executed, 29 up-to-date
 ```
