@@ -30,8 +30,8 @@ jobs:
           java-version: 11
 
       - run: echo "android.ndkVersion '${{ matrix.NDK }}'" >> app/build.gradle
-      - run: perl -pe 's/version '[\d\.+]'/version '${{ matrix.CMake }}'/ -i app/build.gradle
-      - run: perl -pe 's/minSdk \d+$/minSdk ${{ matrix.minSdk }}/ -i app/build.gradle
+      - run: perl -pe "s/version '[\d\.+]'/version '${{ matrix.CMake }}'/" -i app/build.gradle
+      - run: perl -pe "s/minSdk \d+$/minSdk ${{ matrix.minSdk }}/" -i app/build.gradle
 
       - run: cat app/build.gradle
 
